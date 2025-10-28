@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 设置根字体大小，1rem = 16px */
+html {
+  font-size: 16px;
+}
+
+/* 响应式根字体大小 */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px; /* 移动端稍小 */
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px; /* 大屏幕稍大 */
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}

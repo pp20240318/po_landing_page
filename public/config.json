@@ -1,0 +1,12 @@
+{
+  "site": {
+    "title": "Landing Page",
+    "description": "网站描述",
+    "favicon": "/favicon.ico"
+  },
+  "links": {
+    "customerService": "https://www.pyr555.help/",
+    "link2": "https://example.com/link2",
+    "link3": "https://example.com/link3"
+  }
+}
