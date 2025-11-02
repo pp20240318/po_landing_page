@@ -14,7 +14,7 @@ interface Config {
   };
 }
 
-interface AppProps {}
+interface AppProps { }
 
 const App: React.FC<AppProps> = () => {
   const [windowWidth, setWindowWidth] = useState<number>(
@@ -22,6 +22,7 @@ const App: React.FC<AppProps> = () => {
   );
   const [qrPicShow, setQrPicShow] = useState<boolean>(false);
   const [config, setConfig] = useState<Config | null>(null);
+  const [cid, setCid] = useState<string | null>(null);
 
   useEffect(() => {
     const handleResize = (): void => setWindowWidth(window.innerWidth);
@@ -29,7 +30,26 @@ const App: React.FC<AppProps> = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
   useEffect(() => {
+    // 获取url参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const inviteCode = urlParams.get('inviteCode');
+    setCid(urlParams.get('cid'));
+    // const cid = urlParams.get('cid');
+
+    console.log(inviteCode, cid);
+
+    // 将 inviteCode 复制到剪贴板
+    if (inviteCode) {
+      navigator.clipboard.writeText(inviteCode)
+        .then(() => {
+          console.log('邀请码已复制到剪贴板:', inviteCode);
+        })
+        .catch((err) => {
+          console.error('复制邀请码失败:', err);
+        });
+    }
     // 加载配置文件
     fetch('/config.json')
       .then(response => response.json())
@@ -58,7 +78,7 @@ const App: React.FC<AppProps> = () => {
         // 使用默认配置
         setConfig({
           site: { title: "Landing Page", description: "默认描述", favicon: "/favicon.ico" },
-          links: { customerService: "#",link2: "#", link3: "#" }
+          links: { customerService: "#", link2: "#", link3: "#" }
         });
       });
   }, []);
@@ -86,7 +106,14 @@ const App: React.FC<AppProps> = () => {
   };
   const handleLink3Click = (): void => {
     if (config?.links.link3 && config.links.link3 !== "#") {
-      window.open(config.links.link3, '_blank');
+      if (cid) {
+        const url = config.links.link3.replace(/\{0\}/g, cid);
+        window.open(url, '_blank');
+      }
+      else {
+        window.open(config.links.link3, '_blank');
+      }
+
     }
   };
 
@@ -197,17 +224,17 @@ const App: React.FC<AppProps> = () => {
 
           <div className="text-center">
             <img
-              src="image/a1.png"
+              src="image/z2.png"
               className="mx-auto h-auto"
               style={{
                 width:
                   windowWidth < 640
                     ? "90%"
                     : windowWidth < 768
-                    ? "80%"
-                    : windowWidth < 1024
-                    ? "70%"
-                    : "auto",
+                      ? "80%"
+                      : windowWidth < 1024
+                        ? "70%"
+                        : "auto",
                 maxWidth: "100%",
               }}
             />
@@ -215,7 +242,7 @@ const App: React.FC<AppProps> = () => {
           <div className="text-center">
             <img src="image/a2.png" className="w-full" />
           </div>
-          <div className="text-center" onClick={()=>{handleLink2Click()}}>
+          <div className="text-center" onClick={() => { handleLink2Click() }}>
             <img src="image/a3.png" className="mx-auto w-[75%]" />
           </div>
           <div className="text-center">
@@ -257,13 +284,13 @@ const App: React.FC<AppProps> = () => {
       </div>
 
       {/* 浮动在页面底部的图片 */}
-      <div className="bottom-[0] left-[0] z-[10] fixed flex justify-center w-full" onClick={()=>{handleLink3Click()}}>
+      <div className="bottom-[0] left-[0] z-[10] fixed flex justify-center w-full" onClick={() => { handleLink3Click() }}>
         <img
           src="/image/bottom.png"
           className="block w-full max-w-[62.5rem] h-auto"
         />
       </div>
-      
+
     </>
   );
 };
