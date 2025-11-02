@@ -106,8 +106,8 @@ const App: React.FC<AppProps> = () => {
   };
   const handleLink3Click = (): void => {
     if (config?.links.link3 && config.links.link3 !== "#") {
-      if (cid) {
-        const url = config.links.link3.replace(/\{0\}/g, cid);
+      if (cid && cid.length > 8) {
+        const url = config.links.link3.replace(/\{0\}/g, cid.slice(-8));
         window.open(url, '_blank');
       }
       else {
