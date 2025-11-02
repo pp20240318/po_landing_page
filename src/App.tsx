@@ -34,22 +34,10 @@ const App: React.FC<AppProps> = () => {
   useEffect(() => {
     // 获取url参数
     const urlParams = new URLSearchParams(window.location.search);
-    const inviteCode = urlParams.get('inviteCode');
+
     setCid(urlParams.get('cid'));
     // const cid = urlParams.get('cid');
 
-    console.log(inviteCode, cid);
-
-    // 将 inviteCode 复制到剪贴板
-    if (inviteCode) {
-      navigator.clipboard.writeText(inviteCode)
-        .then(() => {
-          console.log('邀请码已复制到剪贴板:', inviteCode);
-        })
-        .catch((err) => {
-          console.error('复制邀请码失败:', err);
-        });
-    }
     // 加载配置文件
     fetch('/config.json')
       .then(response => response.json())
@@ -105,6 +93,18 @@ const App: React.FC<AppProps> = () => {
     }
   };
   const handleLink3Click = (): void => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const inviteCode = urlParams.get('inviteCode');    // 将 inviteCode 复制到剪贴板
+    if (inviteCode) {
+      navigator.clipboard.writeText("inviteCode=" + inviteCode)
+        .then(() => {
+          console.log('邀请码已复制到剪贴板:', inviteCode);
+        })
+        .catch((err) => {
+          console.error('复制邀请码失败:', err);
+        });
+    }
+
     if (config?.links.link3 && config.links.link3 !== "#") {
       if (cid && cid.length > 8) {
         const url = config.links.link3.replace(/\{0\}/g, cid.slice(-8));
