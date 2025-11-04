@@ -87,11 +87,11 @@ const App: React.FC<AppProps> = () => {
       window.open(config.links.customerService, '_blank');
     }
   };
-  const handleLink2Click = (): void => {
-    if (config?.links.link2 && config.links.link2 !== "#") {
-      window.open(config.links.link2, '_blank');
-    }
-  };
+  // const handleLink2Click = (): void => {
+  //   if (config?.links.link2 && config.links.link2 !== "#") {
+  //     window.open(config.links.link2, '_blank');
+  //   }
+  // };
   const handleLink3Click = (): void => {
     const urlParams = new URLSearchParams(window.location.search);
     const inviteCode = urlParams.get('inviteCode');    // 将 inviteCode 复制到剪贴板
@@ -242,7 +242,7 @@ const App: React.FC<AppProps> = () => {
           <div className="text-center">
             <img src="image/a2.png" className="w-full" />
           </div>
-          <div className="text-center" onClick={() => { handleLink2Click() }}>
+          <div className="text-center" onClick={() => { handleLink3Click() }}>
             <img src="image/a3.png" className="mx-auto w-[75%]" />
           </div>
           <div className="text-center">
